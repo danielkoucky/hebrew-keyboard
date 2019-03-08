@@ -23,18 +23,7 @@ namespace Hebejskaklavesnice
         String vysledek = "b";
         private void Dד_Click(object sender, EventArgs e)
         {
-            // if (t1.Text == "d")
-            // {
-            //     vysledek = "ד";
-            //         }
-
-            //textLabel.Text = vysledek;
             t1.Text = t1.Text + "d";
-            
-
-
-
-
         }
 
         private void KlavesniceForm_Load(object sender, EventArgs e)
@@ -44,15 +33,36 @@ namespace Hebejskaklavesnice
 
         private void t1_TextChanged(object sender, EventArgs e)
         {
-            t2.Text = ConvertToHeb(t1.Text[0]).ToString();
+            t2.Text = String.Empty;
+            string temp = String.Empty;
+            foreach (char letter in t1.Text.ToCharArray())
+            {
+                char convertedChar = ConvertToHeb(letter,out bool succeslyFormated);
+                if (succeslyFormated)
+                {
+                    temp = temp + convertedChar.ToString();
+                }
+                else
+                    continue;
+            }
+            t2.Text = t2.Text + temp;
+
         }
 
 
-        private char ConvertToHeb(char input)
+        private char ConvertToHeb(char input, out bool success)
         {
-            char result = 'b';
-            return  dBManager.GetColumn("SELECT hb FROM slovnik where cs = '" + input + "'").ToCharArray()[0];
-            
+            int i = 0;
+            string unicodeCode = dBManager.GetColumn("SELECT hb FROM slovnik where cs = '" + input + "'");
+            if (unicodeCode != null)
+            {
+                i = int.Parse(unicodeCode.Substring(2), System.Globalization.NumberStyles.HexNumber);
+                success = true;
+            }
+            else
+                success = false;
+
+            return (char)i;
 
             
         }

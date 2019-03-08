@@ -14,7 +14,7 @@ namespace Hebejskaklavesnice
 
         public DBManager()
         {
-            sqliteConn = new SQLiteConnection(@"Data Source = C:\Users\Lenovo\Documents\sqlite.db; Version = 3");
+            sqliteConn = new SQLiteConnection(@"Data Source = C:\Users\kouck\Source\Repos\danielkoucky\hebrew-keyboard\sqlite.db; Version = 3");
             sqliteConn.Open();
         }
 
